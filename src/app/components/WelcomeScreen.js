@@ -1,13 +1,18 @@
 'use client';
 import { useState } from 'react';
 
-export default function WelcomeScreen({ brand, onSubmit }) {
+export default function WelcomeScreen({ onSubmit }) {
+  // Ορίζουμε by default την GB
+  const [brand, setBrand] = useState('gb'); 
   const [email, setEmail] = useState('');
   const [company, setCompany] = useState('');
   const [errorType, setErrorType] = useState(null);
 
-  const logoSrc = brand === 'laoudis' ? '/Laoudis-logo.svg' : '/GB-logo.svg';
-  const welcomeTitle = brand === 'laoudis' ? 'Καλώς ήρθατε στη Laoudis Foods!' : 'Καλώς ήρθατε στην G&B Experts!';
+  // Δυναμικές μεταβλητές βάσει του επιλεγμένου brand
+  const isLaoudis = brand === 'laoudis';
+  const logoSrc = isLaoudis ? '/Laoudis-logo.svg' : '/GB-LOGO.svg';
+  const welcomeTitle = isLaoudis ? 'Καλώς ήρθατε στη Laoudis Foods!' : 'Καλώς ήρθατε στη G&B Experts!';
+  const primaryColor = isLaoudis ? '#D32F2F' : '#1b79be';
 
   const handleContinue = () => {
     const cleanEmail = email.trim();
@@ -23,17 +28,37 @@ export default function WelcomeScreen({ brand, onSubmit }) {
     }
 
     setErrorType(null);
-    onSubmit(cleanEmail, company.trim());
+    // Στέλνουμε στο page.js ΟΛΑ τα δεδομένα: email, company ΚΑΙ το επιλεγμένο brand
+    onSubmit({ email: cleanEmail, company: company.trim(), brand });
   };
 
   return (
-    <div className="w-[562px] mx-auto flex flex-col items-center text-center space-y-12 my-auto animate-fadeIn">
+    <div className="w-[562px] mx-auto flex flex-col items-center text-center space-y-10 my-auto animate-fadeIn">
+      
+      {/* TOGGLE BUTTON ΕΝΑΛΛΑΓΗΣ ΕΤΑΙΡΕΙΩΝ */}
+      <div className="flex bg-slate-100 p-1 rounded-full w-full max-w-[350px] shadow-inner mb-2">
+        <button
+          type="button"
+          onClick={() => setBrand('gb')}
+          className={`flex-1 py-2 text-sm font-bold rounded-full transition-all duration-300 ${!isLaoudis ? 'bg-white text-[#0B3B60] shadow' : 'text-slate-400 hover:text-slate-600'}`}
+        >
+          G&B Experts
+        </button>
+        <button
+          type="button"
+          onClick={() => setBrand('laoudis')}
+          className={`flex-1 py-2 text-sm font-bold rounded-full transition-all duration-300 ${isLaoudis ? 'bg-white text-[#D32F2F] shadow' : 'text-slate-400 hover:text-slate-600'}`}
+        >
+          Laoudis Foods
+        </button>
+      </div>
+
       <div className="w-[361px] h-[133px] flex justify-center items-center">
-        <img src={logoSrc} alt="Brand Logo" className="object-contain max-w-full max-h-full" />
+        <img src={logoSrc} alt="Brand Logo" className="object-contain max-w-full max-h-full transition-opacity duration-300" />
       </div>
 
       <div className="space-y-4">
-        <h1 className="text-[28px] font-bold text-[#1E293B]">{welcomeTitle}</h1>
+        <h1 className="text-[28px] font-bold text-[#1E293B] transition-colors">{welcomeTitle}</h1>
         <p className="text-[16px] text-[#64748B] leading-relaxed">
           Επιθυμείτε να λάβετε τις συνταγές στο email σας;<br />Συμπληρώστε τα παρακάτω πεδία:
         </p>
@@ -46,7 +71,7 @@ export default function WelcomeScreen({ brand, onSubmit }) {
           value={company}
           onChange={(e) => setCompany(e.target.value)}
           className="w-full h-[60px] px-5 rounded-xl border border-[#E2E8F0] bg-white text-[16px] text-[#1E293B] focus:outline-none focus:ring-2 focus:ring-opacity-20 transition-all"
-          style={{ '--tw-ring-color': 'var(--primary)', 'borderColor': 'var(--primary)' }}
+          style={{ '--tw-ring-color': primaryColor, borderColor: company ? primaryColor : '#E2E8F0' }}
         />
         
         <input 
@@ -55,18 +80,19 @@ export default function WelcomeScreen({ brand, onSubmit }) {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="w-full h-[60px] px-5 rounded-xl border border-[#E2E8F0] bg-white text-[16px] text-[#1E293B] focus:outline-none focus:ring-2 focus:ring-opacity-20 transition-all"
-          style={{ '--tw-ring-color': 'var(--primary)', 'borderColor': 'var(--primary)' }}
+          style={{ '--tw-ring-color': primaryColor, borderColor: email ? primaryColor : '#E2E8F0' }}
         />
 
         <button 
           onClick={handleContinue} 
           className="w-full h-[60px] text-white text-[18px] font-semibold rounded-xl shadow-md transition-all active:scale-[0.99] mt-4"
-          style={{ backgroundColor: 'var(--primary)' }}
+          style={{ backgroundColor: primaryColor }}
         >
           Συνέχεια
         </button>
       </div>
 
+      {/* ERROR MODAL */}
       {errorType && (
         <>
           <div className="absolute inset-0 bg-black/10 backdrop-blur-[2px] z-40" onClick={() => setErrorType(null)}></div>
