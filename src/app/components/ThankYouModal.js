@@ -3,7 +3,7 @@
 export default function ThankYouModal({ brand, onClose }) {
   const isLaoudis = brand === 'laoudis';
   const logoSrc = isLaoudis ? '/Laoudis-logo.svg' : '/GB-LOGO.svg';
-  const primaryColor = isLaoudis ? '#D32F2F' : '#1b79be';
+  const primaryColor = isLaoudis ? '#912242' : '#1b79be';
 
   return (
     <>

@@ -5,7 +5,7 @@ export default function RecipeSelection({ brand, recipes, onSubmit }) {
   const [checkedFiles, setCheckedFiles] = useState({});
 
   // Ορίζουμε το χρώμα ανάλογα με το prop 'brand'
-  const primaryColor = brand === 'laoudis' ? '#D32F2F' : '#1b79be';
+  const primaryColor = brand === 'laoudis' ? '#912242' : '#1b79be';
 
   const handleToggle = (filename) => {
     setCheckedFiles(prev => ({ ...prev, [filename]: !prev[filename] }));

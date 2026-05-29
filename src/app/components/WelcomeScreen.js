@@ -12,7 +12,7 @@ export default function WelcomeScreen({ onSubmit }) {
   const isLaoudis = brand === 'laoudis';
   const logoSrc = isLaoudis ? '/Laoudis-logo.svg' : '/GB-LOGO.svg';
   const welcomeTitle = isLaoudis ? 'Καλώς ήρθατε στη Laoudis Foods!' : 'Καλώς ήρθατε στη G&B Experts!';
-  const primaryColor = isLaoudis ? '#D32F2F' : '#1b79be';
+  const primaryColor = isLaoudis ? '#912242' : '#1b79be';
 
   const handleContinue = () => {
     const cleanEmail = email.trim();
