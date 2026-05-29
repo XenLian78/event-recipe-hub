@@ -1,8 +1,8 @@
 'use client';
 import { useState } from 'react';
-import WelcomeScreen from './WelcomeScreen';
-import RecipeSelection from './RecipeSelection';
-import ThankYouModal from './ThankYouModal';
+import WelcomeScreen from './components/WelcomeScreen';
+import RecipeSelection from './components/RecipeSelection';
+import ThankYouModal from './components/ThankYouModal';
 
 export default function Home() {
   // Ορίζουμε σε ποιο βήμα βρίσκεται ο χρήστης: 'welcome', 'selection', ή 'thanks'
